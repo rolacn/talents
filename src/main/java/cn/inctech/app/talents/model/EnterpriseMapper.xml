@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD 
+ Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.EnterpriseMapper">
+    <!--获取待筛选简历-->
+    <select id="unScreenedResume" resultType="Delivery">
+        select * from delivery_info d JOIN company_info com on d.c_id = com.c_id JOIN position_info p ON d.p_id = p.p_id
+        JOIN student_info s on d.s_id = s.s_id JOIN user_info u on u.u_id = s.s_id where
+        d.c_id = #{arg2}
+        and d.d_method = #{arg3} and d.d_state = 1
+        <if test='arg0 != ""'>
+            and com.c_name like '%${arg0}%' or p.p_duty like '%${arg0}%' or u.u_name like '%${arg0}%'
+        </if>
+        limit #{arg1},10;
+    </select>
+    <!--获取已邀请面试简历-->
+    <select id="invitedResume" resultType="Delivery">
+        select * from delivery_info d JOIN company_info com on d.c_id = com.c_id JOIN position_info p ON d.p_id = p.p_id
+        JOIN student_info s on d.s_id = s.s_id JOIN user_info u on u.u_id = s.s_id WHERE d.c_id = #{arg2} AND d.d_state
+        = 2
+        <if test='arg0 != ""'>
+            and com.c_name like '%${arg0}%' or p.p_duty like '%${arg0}%' or u.u_name like '%${arg0}%'
+        </if>
+        limit #{arg1},10;
+    </select>
+    <!--获取面试结果简历-->
+    <select id="interviewedResume" resultType="Delivery">
+        select * from delivery_info d JOIN company_info com on d.c_id = com.c_id JOIN position_info p ON d.p_id = p.p_id
+        JOIN student_info s on d.s_id = s.s_id JOIN user_info u on u.u_id = s.s_id WHERE d.c_id = #{arg2} AND d.d_state
+        = 3
+        <if test='arg0 != ""'>
+            and com.c_name like '%${arg0}%' or p.p_duty like '%${arg0}%' or u.u_name like '%${arg0}%'
+        </if>
+        limit #{arg1},10;
+    </select>
+    <!--获取已通过的简历-->
+    <select id="passedResume" resultType="Delivery">
+        select * from delivery_info d JOIN company_info com on d.c_id = com.c_id JOIN position_info p ON d.p_id = p.p_id
+        JOIN student_info s on d.s_id = s.s_id JOIN user_info u on u.u_id = s.s_id WHERE d.c_id = #{arg2} AND
+        d.d_state = 4
+        <if test='arg0 != ""'>
+            and com.c_name like '%${arg0}%' or p.p_duty like '%${arg0}%' or u.u_name like '%${arg0}%'
+        </if>
+        limit #{arg1},10;
+    </select>
+    <!--获取不合适的简历-->
+    <select id="inappropriateResume" resultType="Delivery">
+        select * from delivery_info d JOIN company_info com on d.c_id = com.c_id JOIN position_info p ON d.p_id = p.p_id
+        JOIN student_info s on d.s_id = s.s_id JOIN user_info u on u.u_id = s.s_id WHERE d.c_id = #{arg2} AND d.d_state
+        = 999
+        <if test='arg0 != ""'>
+            and com.c_name like '%${arg0}%' or p.p_duty like '%${arg0}%' or u.u_name like '%${arg0}%'
+        </if>
+        limit #{arg1},10;
+    </select>
+    <!-- 发布职位 -->
+    <insert id="postPosition" parameterType="Position">
+        insert into position_info values (#{p_id},#{c_id},#{p_create},#{p_end},#{p_salary},#{p_demand},#{p_work_location},#{p_education},#{p_time},#{p_length},#{p_temptation},#{p_duty},#{p_qualifications},#{p_industry},#{p_direction},#{p_job});
+    </insert>
+    <!-- 获取已发布的职位 -->
+    <select id="getMyPosition" resultType="Position">
+        select * from position_info p JOIN company_info com on p.c_id = com.c_id where com.c_id = #{arg0};
+    </select>
+</mapper>

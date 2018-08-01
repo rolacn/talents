@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD 
+ Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.TeacherMapper">
+    <!--教师资质认证-->
+    <update id="modifyTeacherQualification">
+		update teacher_info set t_unit = #{arg2},t_number=#{arg3} where t_id = #{arg0};
+		update user_info set u_name = #{arg1} where u_id = #{arg0};
+	</update>
+    <!--修改教师信息-->
+    <update id="modifyTeacherInfo" parameterType="Teacher">
+		update teacher_info set t_major=#{t_major},t_education=#{t_education},t_graduate=#{t_graduate},t_unit=#{t_unit},t_number=#{t_number},t_industry=#{t_industry},t_department=#{t_department},t_office_add=#{t_office_add},t_service_date=#{t_service_date},t_title=#{t_title},t_job=#{t_job},t_honor=#{t_honor},t_credentials=#{t_credentials},t_achievement=#{t_achievement},t_research_direction=#{t_research_direction},t_experience=#{t_experience},t_desciprtion=#{t_description},t_photo=#{t_photo} where t_id=#{t_id};
+		update user_info set u_name=#{u_name},u_identity=#{u_identity},u_gender=#{u_gender},u_birth=#{u_birth},u_age=#{u_age},u_phone_number=#{u_phone_number},u_email=#{u_email},u_wechat=#{u_wechat},u_qq=#{u_qq},u_origin=#{u_origin},u_address=#{u_address},u_avator=#{u_avator} where u_id = #{t_id}
+	</update>
+    <!--生成邀请码-->
+    <update id="generateInvitationCode">
+		update teacher_info set t_invitation_code = #{arg1},t_generate_time = #{arg2},t_time_length = #{arg3} where t_id = #{arg0};
+	</update>
+    <!--获取名下学生列表(包括待接收的)-->
+    <select id="getStudentList" resultType="Student">
+		select * from teacher_student_r JOIN student_info on student_info.s_id = teacher_student_r.s_id JOIN user_info on teacher_student_r.s_id = user_info.u_id where t_id = #{arg0} and ts_state = #{arg1} limit #{arg2},10;
+	</select>
+    <!--添加给学生评论-->
+    <insert id="addStudentComment">
+        insert into comment_info (t_id,s_id,content,date) values(#{arg0},#{arg1},#{arg2},#{arg3});
+    </insert>
+
+</mapper>

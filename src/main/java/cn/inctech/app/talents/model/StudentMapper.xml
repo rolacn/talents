@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD
+ Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.StudentMapper">
+    <!--获取邀请码的生成时间-->
+    <select id="getInvitationCodeGenerateTime" resultType="Long">
+        select t_generate_time from teacher_info where t_invitation_code = #{arg0};
+    </select>
+    <!--获取邀请码的有效时长-->
+    <select id="getInvitationCodeTimeLength" resultType="Long">
+        select t_time_length from teacher_info where t_invitation_code = #{arg0};
+    </select>
+    <!--通过邀请码将学生与教师绑定,使学生成为该教师名下的学生-->
+    <insert id="blindByInvitationCode">
+        insert into teacher_student_r values (#{arg0},#{arg1},#{arg2},#{arg3});
+    </insert>
+    <select id="getTeacherByInvitationCode" resultType="Teacher">
+        select * from teacher_info where t_invitation_code = #{arg0};
+    </select>
+    <!-- 修改学生个人信息 -->
+    <update id="modifyStudentInfo" parameterType="Student">
+        update student_info set s_photo=#{s_photo},s_current_school=#{s_current_school},s_school_enrollment=#{s_school_enrollment},s_school_length=#{s_school_length},s_graduate_year=#{s_graduate_year},s_major=#{s_major},s_cet=#{s_cet},s_other_language=#{s_other_language},s_qualification=#{s_qualification},s_honor=#{s_honor},s_internship=#{s_internship},s_direction=#{s_direction},s_abroad=#{s_abroad},s_training=#{s_training},s_expect_jobs=#{s_expect_jobs},s_expect_industry=#{s_expect_industry},s_graduate_year=#{s_graduate_year},s_major_course=#{s_major_course},s_major_rank=#{s_major_rank},s_education=#{s_education} where s_id=#{s_id};
+		update user_info set u_name=#{u_name},u_identity=#{u_identity},u_gender=#{u_gender},u_birth=#{u_birth},u_age=#{u_age},u_phone_number=#{u_phone_number},u_email=#{u_email},u_wechat=#{u_wechat},u_address=#{u_address} where u_id = #{s_id}
+    </update>
+    <!-- 获取已投递的简历 -->
+    <select id="getPostedResume" resultType="Delivery">
+        select * from delivery_info d JOIN company_info com on d.c_id = com.c_id JOIN position_info p ON d.p_id = p.p_id
+        JOIN student_info s on d.s_id = s.s_id JOIN user_info u on u.u_id = s.s_id where
+        d.s_id = #{arg0}
+        <if test='arg1 == 1'>
+            and d.d_state = 1
+        </if>
+        <if test='arg1 == 2'>
+            and d.d_state = 2
+        </if>
+        <if test='arg1 == 3'>
+            and d.d_state = 3
+        </if>
+        <if test='arg1 == 4'>
+            and d.d_state = 4
+        </if>
+        <if test='arg1 == 999'>
+            and d.d_state = 999
+        </if>
+    </select>
+    <!-- 获取系统中导师列表 -->
+    <select id="getTeacherList" resultType="Teacher">
+        select * from teacher_student_r ts JOIN teacher_info t on ts.t_id = t.t_id JOIN user_info u on ts.t_id = u.u_id where ts.s_id = #{arg0} and ts.ts_state = #{arg1};
+    </select>
+</mapper>

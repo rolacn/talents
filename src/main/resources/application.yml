@@ -24,8 +24,8 @@ spring:
         maxOpenPreparedStatements: 20
 
 mybatis:
-  mapper-locations: classpath:cn/inctech/app/talents/mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
-  type-aliases-package: cn.inctech.app.talents.model
+  mapper-locations: classpath:cn/inctech/app/talents/model/*.xml  #对应mapper映射xml文件的所在路径
+  type-aliases-package: cn.inctech.app.talents.model  #对应实体类的所在路径
 
 pagehelper:
     helperDialect: mysql

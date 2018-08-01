@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD 
+ Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.ETRMSMapper">
+    <!--通过邮箱+密码验证普通用户-->
+    <select id="userAuthenticationByEmail" resultType="Account">
+		select * from account_info where a_email = #{arg0} AND a_password = #{arg1};
+	</select>
+    <!--通过手机+密码验证普通用户-->
+    <select id="userAuthenticationByPhone" resultType="Account">
+		select * from account_info where a_phone = #{arg0} AND a_password = #{arg1};
+	</select>
+    <!--通过邮箱+密码验证企业-->
+    <select id="enterpriseAuthentication" resultType="Enterprise">
+		select * from company_info where c_email = #{arg0} AND c_password = #{arg1};
+	</select>
+    <!--通过用户Id获取学生对象-->
+    <select id="getStudentById" resultType="Student">
+		select * from user_info JOIN student_info
+        where u_id = #{arg0} AND s_id = #{arg0};
+	</select>
+    <!--通过用户Id获取教师对象-->
+    <select id="getTeacherById" resultType="Teacher">
+		select * from user_info JOIN teacher_info
+        where u_id = #{arg0} AND t_id = #{arg0};
+	</select>
+    <!--通过用户Id获取用户对象-->
+    <select id="getUserById" resultType="User">
+		select * from user_info where u_id = #{arg0};
+	</select>
+    <!--通过用户Id获取企业对象-->
+    <select id="getEnterpriseById" resultType="Enterprise">
+		select * from company_info where c_id = #{arg0};
+	</select>
+    <!--判断用户输入的手机号是否已注册-->
+    <select id="isPhoneExist" resultType="Account">
+		select * from account_info where a_phone = #{arg0};
+	</select>
+    <!--将判断登录状态的sessionId写入数据库-->
+    <update id="saveSessionId">
+        update
+        <if test='arg2 == 1 or arg2 == 0'>
+            user_info set u_sessionId = #{arg1}
+        </if>
+        <if test='arg2 == 2'>
+            company_info set c_sessionId = #{arg1}
+        </if>
+        where
+        <if test='arg2 == 1 or arg2 == 0'>
+            u_id = #{arg0}
+        </if>
+        <if test='arg2 == 2'>
+            c_id = #{arg0}
+        </if>
+    </update>
+    <!--注销当前登录用户-->
+    <update id="logout">
+        update
+        <if test='arg1 == 1 or arg1 == 0'>
+            user_info set u_sessionId = 'ETRMS'
+        </if>
+        <if test='arg1 == 2'>
+            company_info set c_sessionId = 'ETRMS'
+        </if>
+        where
+        <if test='arg1 == 1 or arg1 == 0'>
+            u_sessionId = #{arg0};
+        </if>
+        <if test='arg1 == 2'>
+            c_sessionId = #{arg0};
+        </if>
+    </update>
+    <select id="getTeacherByInvitation" resultType="Teacher">
+		select * from user_info JOIN teacher_info where u_id =(select t_id from teacher_info where t_invitation_code = #{arg0}) AND t_id = (select t_id from teacher_info where t_invitation_code = #{arg0});
+	</select>
+    <!-- 公司注册 -->
+    <insert id="companyRegister">
+		insert into company_info (c_id,c_email,c_password) values(#{arg0},#{arg1},#{arg2});
+	</insert>
+    <!-- 收藏 -->
+    <insert id="addCollection">
+		insert into collection_info (u_id,p_id) values(#{arg0},#{arg1});
+	</insert>
+    <!-- 取消收藏 -->
+    <delete id="deleteCollection">
+		delete from collection_info where u_id=#{arg0} and p_id=#{arg1}
+	</delete>
+    <insert id="userRegister">
+		insert into account_info (a_id,a_phone,a_password) values(#{arg0},#{arg1},#{arg2});
+	</insert>
+    <insert id="userRegister_info">
+        insert into user_info
+        <if test='arg2 == 0'>
+            (u_id,u_phone_number,u_remark)
+        </if>
+        <if test='arg2 == 1'>
+            (u_id,u_email,u_remark)
+        </if>
+        values(#{arg0},#{arg3},#{arg1});
+    </insert>
+    <insert id="studentRegister_info">
+		insert into student_info (s_id) values(#{arg0});
+	</insert>
+    <insert id="teacherRegister_info">
+		insert into teacher_info (t_id) values(#{arg0});
+	</insert>
+    <!--获取职位信息-->
+    <select id="getPositionList" resultType="Position">
+        SELECT * FROM position_info p JOIN company_info com on p.c_id = com.c_id
+        LEFT JOIN collection_info c ON c.p_id = p.p_id and c.u_id = #{arg2}
+        <if test='arg3 != ""'>
+            AND p_industry = #{arg3}
+        </if>
+        <if test='arg4 != ""'>
+            AND p_direction = #{arg4}
+        </if>
+        <if test='arg5 != ""'>
+            AND p_job = #{arg5}
+        </if>
+        <if test='arg6 != ""'>
+            AND p_work_location = #{arg6}
+        </if>
+        WHERE p.p_id is not null
+        <if test='arg7 != 0'>
+            and c.u_id = #{arg2}
+        </if>
+        <if test='arg0 != ""'>
+            and com.c_name LIKE '%${arg0}%' or p.p_duty LIKE '%${arg0}%'
+        </if>
+    </select>
+
+    <!--获取学生的评论-->
+    <select id="getStudentComment" resultType="Comment">
+        select * from comment_info where s_id = #{arg0}
+    </select>
+    <!--通过职位Id获取职位信息-->
+    <select id="getPositionById" resultType="Position">
+        select * from position_info p JOIN company_info com on p.c_id = com.c_id where p_id = #{arg0};
+    </select>
+
+    <!--投递简历-->
+    <insert id="postResume" parameterType="Delivery">
+      insert into delivery_info values(#{d_id},#{c_id},#{p_id},#{s_id},#{t_id},#{d_state},#{d_file},#{d_date},#{d_method})
+    </insert>
+
+    <!--查询positionid等于空的信息-->
+    <select id="getPositionIdIsNull" resultType="Delivery">
+        SELECT * from delivery_info WHERE  p_id=0 and t_id=#{arg0}
+    </select>
+
+    <!--删除positionid等于空的信息-->
+    <delete id="deletePositionIdIsNull">
+        delete from delivery_info where p_id=0 and t_id=#{arg0}
+    </delete>
+
+    <!--修改指定简历状态-->
+    <update id="resumeOpt">
+        update delivery_info set d_state = #{arg1} where d_id = #{arg0};
+    </update>
+    <!-- 处理学生的绑定申请 -->
+    <update id="applyOpt">
+		update teacher_student_r set ts_state = #{arg2} where s_id = #{arg0} and t_id = #{arg1};
+	</update>
+
+
+</mapper>
