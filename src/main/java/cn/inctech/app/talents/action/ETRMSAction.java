@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,8 +26,7 @@ import cn.inctech.app.talents.model.Student;
 import cn.inctech.app.talents.service.ETRMSService;
 
 @Controller
-@CrossOrigin(origins = "*", maxAge = 3600)
-public class ETRMS {
+public class ETRMSAction {
 
     /**
      * 生成图片验证码并返回给前端界面
@@ -38,7 +36,7 @@ public class ETRMS {
      * @return null
      * @throws Exception
      */
-    @RequestMapping("validateCode.do")
+    @RequestMapping("/validateCode.do")
     public void validateCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
         // 设置响应的类型格式为图片格式
         response.setContentType("image/jpeg");
@@ -60,7 +58,7 @@ public class ETRMS {
      *
      * @return
      */
-    @RequestMapping("getVcode.do")
+    @RequestMapping("/getVcode.do")
     @ResponseBody
     public String getVcode() {
         Map<String, Object> result = new HashMap<String, Object>();
@@ -74,7 +72,7 @@ public class ETRMS {
      * @param userPhone 手机号
      * @return
      */
-    @RequestMapping(value = "isPhoneExist.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/isPhoneExist.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String isPhoneExist(String userPhone) {
         JSONObject result = new JSONObject();
@@ -95,7 +93,7 @@ public class ETRMS {
      * @param type      类型
      * @return String
      */
-    @RequestMapping(value = "register.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/register.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String register(String userPhone, String password, int type) {
         JSONObject result = new JSONObject();
@@ -149,7 +147,7 @@ public class ETRMS {
      * @param type      用户类型
      * @return
      */
-    @RequestMapping(value = "login.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/login.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String login(String userPhone, String password, int type) {
         JSONObject jsonObject = null;
@@ -206,7 +204,7 @@ public class ETRMS {
      * @param sessionId 用于判断登录状态的sessionId
      * @return
      */
-    @RequestMapping(value = "logout.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/logout.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String logout(int type, String sessionId) {
         if (etrmsService.logout(type, sessionId)) {
@@ -224,7 +222,7 @@ public class ETRMS {
      * @param sessionId 用于判断登录状态的sessionId
      * @return
      */
-    @RequestMapping(value = "addCollection.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/addCollection.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String addCollection(int type, long userId, long jobId, String sessionId) {
         String result = "";
@@ -248,7 +246,7 @@ public class ETRMS {
      * @param sessionId 用于判断登录状态的sessionId
      * @return String
      */
-    @RequestMapping(value = "deleteCollection.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/deleteCollection.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String deleteCollection(int type, long userId, long jobId, String sessionId) {
         String result = "";
@@ -279,7 +277,7 @@ public class ETRMS {
      * @param p_work_location 工作地点
      * @return
      */
-    @RequestMapping(value = "getPositionList.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/getPositionList.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getPositionList(String type, long userId, String sessionId, int page, String keyWord, int flag, String p_industry,
                                   String p_direction,
@@ -301,7 +299,7 @@ public class ETRMS {
      * @param studentId 要查看的学生Id
      * @return
      */
-    @RequestMapping(value = "getStudentInfo.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/getStudentInfo.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getStudentInfo(int type, long userId, String sessionId, long studentId) {
         JSONObject result = new JSONObject();
@@ -331,7 +329,7 @@ public class ETRMS {
      * @param positionId 职位Id
      * @return
      */
-    @RequestMapping(value = "getPositionInfo.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/getPositionInfo.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getPositionInfo(int type, long userId, String sessionId, long positionId) {
         JSONObject result = new JSONObject();
@@ -357,7 +355,7 @@ public class ETRMS {
      * @param request HttpServletRequest
      * @return
      */
-    @RequestMapping(value = "postResume.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/postResume.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String postResume(HttpServletRequest request) {
         int type = Integer.parseInt(request.getParameter("type"));
@@ -407,7 +405,7 @@ public class ETRMS {
      * @param optResult  要修改的状态
      * @return
      */
-    @RequestMapping(value = "resumeOpt.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/resumeOpt.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String resumeOpt(long userId, String sessionId, long deliveryId, int optResult, int type) {
         if (etrmsService.loginState(type, userId, sessionId)) {
@@ -432,7 +430,7 @@ public class ETRMS {
      * @param optResult 操作结果(0-> 解除关系;1-> 刚刚申请;2-> 绑定)
      * @return
      */
-    @RequestMapping(value = "applyOpt.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/applyOpt.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String applyOpt(int type, long userId, long studentId, long teacherId, String sessionId, int optResult) {
         if (etrmsService.loginState(type, teacherId, sessionId)) {

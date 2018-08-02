@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,7 +20,6 @@ import cn.inctech.app.talents.service.ETRMSService;
 import cn.inctech.app.talents.service.EnterpriseService;
 
 @Controller
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class EnterpriseAction {
 
     /**
@@ -35,7 +33,7 @@ public class EnterpriseAction {
      * @param tabIndex  选项卡(未筛选简历中的4个tab)
      * @return
      */
-    @RequestMapping(value = "resumeManage.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/resumeManage.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String resumeManage(long companyId, String sessionId, String keyWord, int page, int state, String tabIndex) {
         JSONObject result = new JSONObject();
@@ -65,7 +63,7 @@ public class EnterpriseAction {
      * @param position  职位信息
      * @return
      */
-    @RequestMapping(value = "postPosition.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/postPosition.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String postPosition(long companyId, String sessionId, Position position) {
         if (etrmsService.loginState(TYPE, companyId, sessionId)) {
@@ -87,7 +85,7 @@ public class EnterpriseAction {
      * @param page      页码
      * @return
      */
-    @RequestMapping(value = "getMyPosition.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/getMyPosition.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getMyPosition(long companyId, String sessionId, int page) {
         JSONObject result = new JSONObject();

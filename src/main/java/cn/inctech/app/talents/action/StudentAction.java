@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -22,7 +21,6 @@ import cn.inctech.app.talents.service.ETRMSService;
 import cn.inctech.app.talents.service.StudentService;
 
 @Controller
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class StudentAction {
 
     /**
@@ -34,7 +32,7 @@ public class StudentAction {
      * @param page      页码
      * @return
      */
-    @RequestMapping(value = "getTeacherList.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/getTeacherList.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getTeacherList(long studentId, String sessionId, int state, int page) {
         JSONObject result = new JSONObject();
@@ -63,7 +61,7 @@ public class StudentAction {
      * @param invitationCode 邀请码
      * @return
      */
-    @RequestMapping(value = "blindByInvitationCode.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/blindByInvitationCode.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String blindByInvitationCode(long studentId, String sessionId, String invitationCode) {
         if (etrmsService.loginState(TYPE, studentId, sessionId)) {
@@ -87,7 +85,7 @@ public class StudentAction {
      * @param student 学生信息
      * @return
      */
-    @RequestMapping(value = "modifyStudentInfo.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/modifyStudentInfo.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String modifyStudentInfo(Student student) {
         if (etrmsService.loginState(TYPE, student.getS_id(), student.getU_sessionId())) {
@@ -112,7 +110,7 @@ public class StudentAction {
      * @param page      页码
      * @return
      */
-    @RequestMapping(value = "getPostedResume.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/getPostedResume.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getPostedResume(long studentId, String sessionId, int state, int page) {
         JSONObject result = new JSONObject();

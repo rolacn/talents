@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,7 +20,6 @@ import cn.inctech.app.talents.service.ETRMSService;
 import cn.inctech.app.talents.service.TeacherService;
 
 @Controller
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class TeacherAction {
 
     /**
@@ -31,7 +29,7 @@ public class TeacherAction {
      * @param sessionId 用于判断登录状态的sessionId
      * @return
      */
-    @RequestMapping(value = "getTeacherInfo.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/getTeacherInfo.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getTeacherInfo(long teacherId, String sessionId) {
         JSONObject jsonObject = null;
@@ -62,7 +60,7 @@ public class TeacherAction {
      * @param sessionId     用于判断登录状态的sessionId
      * @return
      */
-    @RequestMapping(value = "modifyQualification.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/modifyQualification.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String checkQualification(long teacherId, String teacherName, String teacherSchool, String teacherNum, String sessionId) {
         if (etrmsService.loginState(TYPE, teacherId, sessionId)) {
@@ -81,7 +79,7 @@ public class TeacherAction {
      * @param teacher 将前端提交的参数映射为一个teacher对象
      * @return
      */
-    @RequestMapping(value = "modifyTeacherInfo.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/modifyTeacherInfo.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String modifyTeacherInfo(Teacher teacher) {
         if (etrmsService.loginState(TYPE, teacher.getT_id(), teacher.getU_sessionId())) {
@@ -104,7 +102,7 @@ public class TeacherAction {
      * @param timeLength 邀请码有效时长
      * @return
      */
-    @RequestMapping(value = "generateInvitationCode.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/generateInvitationCode.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String generateInvitationCode(long teacherId, String sessionId, long timeLength) {
         JSONObject result = new JSONObject();
@@ -134,7 +132,7 @@ public class TeacherAction {
      * @param state     状态
      * @return
      */
-    @RequestMapping(value = "getStudentList.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/getStudentList.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getStudentList(String sessionId, long teacherId, int page, int state) {
         JSONObject result = new JSONObject();
@@ -160,7 +158,7 @@ public class TeacherAction {
      * @param teacherId 教师Id
      * @param studentId 学生Id
      */
-    @RequestMapping(value = "addStudentComment.do", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/addStudentComment.do", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String addStudentComment(long teacherId, long studentId, String sessionId, String content) {
         String result = "";

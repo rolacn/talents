@@ -2,7 +2,7 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD
  Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.StudentMapper">
+<mapper namespace="cn.inctech.app.talents.mapper.StudentMapper">
     <!--获取邀请码的生成时间-->
     <select id="getInvitationCodeGenerateTime" resultType="Long">
         select t_generate_time from teacher_info where t_invitation_code = #{arg0};

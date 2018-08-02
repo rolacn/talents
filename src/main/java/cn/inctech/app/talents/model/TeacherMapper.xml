@@ -2,7 +2,7 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD 
  Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.TeacherMapper">
+<mapper namespace="cn.inctech.app.talents.mapper.TeacherMapper">
     <!--教师资质认证-->
     <update id="modifyTeacherQualification">
 		update teacher_info set t_unit = #{arg2},t_number=#{arg3} where t_id = #{arg0};

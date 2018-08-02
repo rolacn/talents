@@ -2,7 +2,7 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD 
  Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.EnterpriseMapper">
+<mapper namespace="cn.inctech.app.talents.mapper.EnterpriseMapper">
     <!--获取待筛选简历-->
     <select id="unScreenedResume" resultType="Delivery">
         select * from delivery_info d JOIN company_info com on d.c_id = com.c_id JOIN position_info p ON d.p_id = p.p_id

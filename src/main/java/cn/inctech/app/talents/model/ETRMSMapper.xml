@@ -2,7 +2,7 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD 
  Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.ETRMSMapper">
+<mapper namespace="cn.inctech.app.talents.mapper.ETRMSMapper">
     <!--通过邮箱+密码验证普通用户-->
     <select id="userAuthenticationByEmail" resultType="Account">
 		select * from account_info where a_email = #{arg0} AND a_password = #{arg1};

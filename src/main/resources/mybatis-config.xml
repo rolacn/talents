@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--将sql信息输出到控制台-->
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+    <typeAliases>
+        <!--在映射文件可以直接使用Account表示entity.Account -->
+        <typeAlias type="cn.inctech.app.talents.model.Account" alias="Account"/>
+        <typeAlias type="cn.inctech.app.talents.model.User" alias="User"/>
+        <typeAlias type="cn.inctech.app.talents.model.Student" alias="Student"/>
+        <typeAlias type="cn.inctech.app.talents.model.Teacher" alias="Teacher"/>
+        <typeAlias type="cn.inctech.app.talents.model.Enterprise" alias="Enterprise"/>
+        <typeAlias type="cn.inctech.app.talents.model.Position" alias="Position"/>
+        <typeAlias type="cn.inctech.app.talents.model.Comment" alias="Comment"/>
+        <typeAlias type="cn.inctech.app.talents.model.Delivery" alias="Delivery"/>
+    </typeAliases>
+    
+    <!-- <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url"
+                          value="jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8&amp;allowMultiQueries=true&amp;useSSL=true"/>
+                <property name="username" value="root"/>
+                <property name="password" value="root"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        类与表的映射文件
+        <mapper resource="cn/inctech/app/talents/model/ETRMSMapper.xml"/>
+        <mapper resource="cn/inctech/app/talents/model/EnterpriseMapper.xml"/>
+        <mapper resource="cn/inctech/app/talents/model/TeacherMapper.xml"/>
+        <mapper resource="cn/inctech/app/talents/model/StudentMapper.xml"/>
+    </mappers> -->
+
+</configuration>
