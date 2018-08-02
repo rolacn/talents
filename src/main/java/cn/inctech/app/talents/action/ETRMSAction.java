@@ -448,7 +448,7 @@ public class ETRMSAction {
 
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final int LENGTH = 32; //生成的sessionId的长度
+    static final int LENGTH = 32; //生成的sessionId的长度
 
     @Autowired
     private ETRMSService etrmsService;

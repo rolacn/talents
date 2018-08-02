@@ -209,4 +209,8 @@ public class ETRMSUtil {
         }
         return age;
     }
+    
+    public static void main(String[] args) {
+    	System.out.println(getRandomString(32));
+    }
 }

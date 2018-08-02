@@ -19,26 +19,5 @@
         <typeAlias type="cn.inctech.app.talents.model.Comment" alias="Comment"/>
         <typeAlias type="cn.inctech.app.talents.model.Delivery" alias="Delivery"/>
     </typeAliases>
-    
-    <!-- <environments default="development">
-        <environment id="development">
-            <transactionManager type="JDBC"/>
-            <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url"
-                          value="jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8&amp;allowMultiQueries=true&amp;useSSL=true"/>
-                <property name="username" value="root"/>
-                <property name="password" value="root"/>
-            </dataSource>
-        </environment>
-    </environments>
-
-    <mappers>
-        类与表的映射文件
-        <mapper resource="cn/inctech/app/talents/model/ETRMSMapper.xml"/>
-        <mapper resource="cn/inctech/app/talents/model/EnterpriseMapper.xml"/>
-        <mapper resource="cn/inctech/app/talents/model/TeacherMapper.xml"/>
-        <mapper resource="cn/inctech/app/talents/model/StudentMapper.xml"/>
-    </mappers> -->
 
 </configuration>
