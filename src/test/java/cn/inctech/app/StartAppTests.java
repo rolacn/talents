@@ -1,5 +1,10 @@
 package cn.inctech.app;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.junit.Before;
@@ -40,7 +45,7 @@ public class StartAppTests {
                 .andDo(MockMvcResultHandlers.print())
 	 * @throws Exception
 	 */
-	@Test
+	/*@Test*/
     public void girlList() throws Exception {
         String test_url="/register.do";
 		mvc.perform(MockMvcRequestBuilders.get("/getVcode.do"))
@@ -53,6 +58,55 @@ public class StartAppTests {
         .andDo(MockMvcResultHandlers.print());
         
     }
+	
+	@Test
+	public void step01__register_login() throws Exception{
+		String url_01="/register.do";
+		String url_02="/login.do";
+		build_users().stream().forEach(e->{
+			try {
+				mvc.perform(MockMvcRequestBuilders.get(url_01).param("userPhone", e.get("userPhone"))
+						.param("password", e.get("password"))
+						.param("type", e.get("type")))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andDo(MockMvcResultHandlers.print());
+				mvc.perform(MockMvcRequestBuilders.get(url_02).param("userPhone", e.get("userPhone"))
+						.param("password", e.get("password"))
+						.param("type", e.get("type")))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andDo(MockMvcResultHandlers.print());
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			
+		});
+	}
+	
+	public List<Map<String,String>> build_users(){
+		List<Map<String,String>> users=new ArrayList<>();
+		Map<String,String> u=null;
+		String userPhone_prefix="1380411000";
+		String type="1";
+		for(int i=1;i<9;i++) {
+			u=new HashMap<>();
+			u.put("userPhone", userPhone_prefix+i);
+			u.put("password", userPhone_prefix+i);
+			u.put("type", type);
+			users.add(u);
+		}
+		
+		userPhone_prefix="user0";
+		String userPhone_suffix="@inctecn.cn";
+		type="2";
+		for(int i=1;i<9;i++) {
+			u=new HashMap<>();
+			u.put("userPhone", userPhone_prefix+i+userPhone_suffix);
+			u.put("password", userPhone_prefix+i);
+			u.put("type", type);
+			users.add(u);
+		}
+		return users;
+	}
 
 	MockMvc mvc;
     @Autowired WebApplicationContext context;
