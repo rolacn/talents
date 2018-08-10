@@ -1,12 +1,15 @@
 package cn.inctech.app.talents.model;
 
+import java.util.Date;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import lombok.Data;
 
 /**
  * 用户类,用于存储用户基本信息
  */
+@Data
 public class User {
 
     private long u_id; //用户Id

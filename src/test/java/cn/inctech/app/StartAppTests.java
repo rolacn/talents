@@ -63,7 +63,7 @@ public class StartAppTests {
 	public void step01__register_login() throws Exception{
 		String url_01="/register.do";
 		String url_02="/login.do";
-		build_users().stream().forEach(e->{
+		build_user().stream().forEach(e->{
 			try {
 				mvc.perform(MockMvcRequestBuilders.get(url_01).param("userPhone", e.get("userPhone"))
 						.param("password", e.get("password"))
@@ -81,6 +81,33 @@ public class StartAppTests {
 			
 		});
 	}
+	
+	public List<Map<String,String>> build_user(){
+		List<Map<String,String>> users=new ArrayList<>();
+		Map<String,String> u=null;
+		String userPhone_prefix="1380411000";
+		String type="1";
+		for(int i=1;i<2;i++) {
+			u=new HashMap<>();
+			u.put("userPhone", userPhone_prefix+i);
+			u.put("password", userPhone_prefix+i);
+			u.put("type", type);
+			users.add(u);
+		}
+		
+		userPhone_prefix="user0";
+		String userPhone_suffix="@inctecn.cn";
+		type="2";
+		for(int i=1;i<2;i++) {
+			u=new HashMap<>();
+			u.put("userPhone", userPhone_prefix+i+userPhone_suffix);
+			u.put("password", userPhone_prefix+i);
+			u.put("type", type);
+			users.add(u);
+		}
+		return users;
+	}
+
 	
 	public List<Map<String,String>> build_users(){
 		List<Map<String,String>> users=new ArrayList<>();
